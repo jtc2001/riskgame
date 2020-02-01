@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: com.jtsportsart
+---
+testFramework: kotlintest
+sourceLanguage: kotlin
