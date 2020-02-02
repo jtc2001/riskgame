@@ -1,36 +1,50 @@
 package com.artcoffer.risk.service
 
+import com.artcoffer.risk.dto.Game
 import com.artcoffer.risk.dto.PlayerMove
 import com.artcoffer.risk.dto.TurnAction.*
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PlayerMoveService {
+class PlayerMoveService(@Inject val coordinator: GameCoordinator) {
 
-    fun move(playerMove: PlayerMove) {
+    fun move(game: Game, playerMove: PlayerMove) {
         when (playerMove.turnAction) {
             ADVANCE -> {
-                advanceTroops(playerMove.territoryFrom, playerMove.territoryTo)
+                advanceTroops(game, playerMove.territoryFrom, playerMove.territoryTo)
             }
             ATTACK -> {
-                attack(playerMove.territoryFrom, playerMove.territoryTo)
+                attack(game, playerMove.territoryFrom, playerMove.territoryTo)
             }
             REINFORCE -> {
-                reinforce(playerMove.territoryFrom, playerMove.territoryTo)
+                reinforce(game, playerMove.territoryFrom, playerMove.territoryTo)
             }
         }
 
     }
 
-    private fun advanceTroops(location1: String, location2: String) {
-        println("Advanced troops from $location1 to $location2")
+    private fun advanceTroops(game: Game, location1: String, location2: String) {
+        if (coordinator.validMove(game)) {
+            println("Advanced troops from $location1 to $location2")
+        } else {
+            println("Invalid move cannot proceed with advancement")
+        }
     }
 
-    private fun attack(location1: String, location2: String) {
-        println("Attacking! from $location1 to $location2")
+    private fun attack(game: Game, location1: String, location2: String) {
+        if (coordinator.validMove(game)) {
+            println("Attacking! from $location1 to $location2")
+        } else {
+            println("Invalid move cannot proceed with attack")
+        }
     }
 
-    private fun reinforce(location1: String, location2: String) {
-        println("Reinforcing troops from $location1 to $location2")
+    private fun reinforce(game: Game, location1: String, location2: String) {
+        if (coordinator.validMove(game)) {
+            println("Reinforcing troops from $location1 to $location2")
+        } else {
+            println("Invalid move cannot proceed with reinforcement")
+        }
     }
 }

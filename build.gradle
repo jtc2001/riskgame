@@ -9,7 +9,7 @@ plugins {
 
 
 version "0.1"
-group "com.jtsportsart"
+group "com.artcoffer"
 
 repositories {
     mavenCentral()
@@ -22,6 +22,7 @@ configurations {
 }
 
 dependencies {
+    annotationProcessor("io.micronaut.data:micronaut-data-processor:1.0.0.RC1")
     implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
     implementation "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
@@ -29,9 +30,13 @@ dependencies {
     implementation "javax.annotation:javax.annotation-api"
     implementation "io.micronaut:micronaut-http-server-netty"
     implementation "io.micronaut:micronaut-http-client"
+    implementation "io.micronaut.data:micronaut-data-hibernate-jpa:$micronautDataVersion", {
+        exclude group:'io.micronaut.configuration', module:'micronaut-hibernate-jpa-spring'
+    }
     kapt platform("io.micronaut:micronaut-bom:$micronautVersion")
     kapt "io.micronaut:micronaut-inject-java"
     kapt "io.micronaut:micronaut-validation"
+    kapt "io.micronaut.data:micronaut-data-hibernate-jpa:1.0.0.RC1"
     kaptTest platform("io.micronaut:micronaut-bom:$micronautVersion")
     kaptTest "io.micronaut:micronaut-inject-java"
     runtime 'org.thymeleaf:thymeleaf:3.0.11.RELEASE'
@@ -45,7 +50,7 @@ dependencies {
 
 test.classpath += configurations.developmentOnly
 
-mainClassName = "com.jtsportsart.Application"
+mainClassName = "com.artcoffer.risk.Application"
 
 test {
     useJUnitPlatform()

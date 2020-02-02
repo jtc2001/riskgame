@@ -16,7 +16,7 @@ class GameController(@Inject val playableMapFactory: PlayableMapFactory) {
      */
     @Get("/game/{id}")
     @Produces(MediaType.TEXT_PLAIN)
-    fun gameInit(@PathVariable id: String): Game {
+    fun gameDetails(@PathVariable id: String): Game {
         return Game(
                 id = "1",
                 players = linkedSetOf("1", "2"),
@@ -34,8 +34,7 @@ class GameController(@Inject val playableMapFactory: PlayableMapFactory) {
                 id = "1",
                 players = gameSetup.players,
                 currentTurn = Turn(playerId = gameSetup.players.first()),
-                playableMap = playableMapFactory.worldMap()
-        )
+                playableMap = playableMapFactory.worldMap())
     }
 
 
