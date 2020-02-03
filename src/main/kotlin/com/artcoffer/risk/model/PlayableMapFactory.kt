@@ -22,7 +22,10 @@ class PlayableMapFactory {
         val northAmerica = Continent(name = "North America", territories = northAmericaTerritories, bonusArmies = 5)
 
         val continents = setOf<Continent>(northAmerica)
+
+        @JvmStatic
+        fun worldMap(): PlayableMap = PlayableMap(continents = continents)
     }
 
-    fun worldMap(): PlayableMap = PlayableMap(continents = continents)
+
 }
