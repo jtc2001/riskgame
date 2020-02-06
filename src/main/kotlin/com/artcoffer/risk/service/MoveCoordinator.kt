@@ -13,20 +13,16 @@ class MoveCoordinator {
 
         return when (playerMove.turnAction) {
             PLACE_TROOPS -> {
-                placeTroops(playerMove.territoryTo)
-                game
+                placeTroops(game, playerMove.territoryTo)
             }
             ADVANCE -> {
-                advanceTroops(playerMove.territoryFrom, playerMove.territoryTo)
-                game
+                advanceTroops(game, playerMove.territoryFrom, playerMove.territoryTo)
             }
             ATTACK -> {
-                attack(playerMove.territoryFrom, playerMove.territoryTo)
-                game
+                attack(game, playerMove.territoryFrom, playerMove.territoryTo)
             }
             REINFORCE -> {
-                reinforce(playerMove.territoryFrom, playerMove.territoryTo)
-                game
+                reinforce(game, playerMove.territoryFrom, playerMove.territoryTo)
             }
             END_TURN -> {
                 endTurn(game)
@@ -35,20 +31,24 @@ class MoveCoordinator {
 
     }
 
-    private fun placeTroops(territoryTo: String) {
+    private fun placeTroops(game: Game, territoryTo: String): Game {
         println("Placing troops on $territoryTo")
+        return game.copy(currentTurn = game.currentTurn.copy(turnActions = setOf(PLACE_TROOPS, END_TURN)))
     }
 
-    private fun advanceTroops(location1: String, location2: String) {
+    private fun advanceTroops(game: Game, location1: String, location2: String): Game {
         println("Advanced troops from $location1 to $location2")
+        return game.copy(currentTurn = game.currentTurn.copy(turnActions = setOf(ADVANCE, ATTACK, END_TURN)))
     }
 
-    private fun attack(location1: String, location2: String) {
+    private fun attack(game: Game, location1: String, location2: String): Game {
         println("Attacking! from $location1 to $location2")
+        return game.copy(currentTurn = game.currentTurn.copy(turnActions = setOf(ATTACK, REINFORCE, END_TURN)))
     }
 
-    private fun reinforce(location1: String, location2: String) {
+    private fun reinforce(game: Game, location1: String, location2: String): Game {
         println("Reinforcing troops from $location1 to $location2")
+        return game.copy(currentTurn = game.currentTurn.copy(turnActions = setOf(REINFORCE, END_TURN)))
     }
 
     private fun endTurn(game: Game): Game {
