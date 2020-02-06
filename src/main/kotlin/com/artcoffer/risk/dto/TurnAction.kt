@@ -4,5 +4,6 @@ enum class TurnAction {
     PLACE_TROOPS,
     ADVANCE,
     ATTACK,
-    REINFORCE
+    REINFORCE,
+    END_TURN
 }

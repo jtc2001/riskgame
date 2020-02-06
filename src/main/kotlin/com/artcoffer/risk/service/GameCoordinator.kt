@@ -1,9 +1,6 @@
 package com.artcoffer.risk.service
 
-import com.artcoffer.risk.dto.CurrentMove
-import com.artcoffer.risk.dto.Game
-import com.artcoffer.risk.dto.GameSetup
-import com.artcoffer.risk.dto.Turn
+import com.artcoffer.risk.dto.*
 import com.artcoffer.risk.dto.TurnAction.PLACE_TROOPS
 import com.artcoffer.risk.model.PlayableMapFactory
 import java.util.*
@@ -11,7 +8,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GameCoordinator(@Inject val playableMapFactory: PlayableMapFactory){
+class GameCoordinator(@Inject val playableMapFactory: PlayableMapFactory,
+                      @Inject val moveCoordinator: MoveCoordinator) {
 
     companion object {
         private lateinit var theGame: Game
@@ -31,16 +29,12 @@ class GameCoordinator(@Inject val playableMapFactory: PlayableMapFactory){
         return theGame.copy()
     }
 
-
     fun validMove(): Boolean {
-        if (!theGame.boardSetup) {
-            return false
-        }
         return true
     }
 
-    fun advanceTurn(): Game {
-        theGame.copy(currentTurn = Turn(playerId = "Matt", turnActions = setOf(PLACE_TROOPS)))
+    fun advanceTurn(playerMove: PlayerMove): Game {
+        theGame = moveCoordinator.calculateNextMove(playerMove, theGame)
         return theGame.copy()
     }
 

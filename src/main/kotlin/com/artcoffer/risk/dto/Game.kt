@@ -6,7 +6,7 @@ data class Game(
         val id: String,
         val startDate: ZonedDateTime? = ZonedDateTime.now(),
         val boardSetup: Boolean = false,
-        val players: LinkedHashSet<String>,
+        val players: List<String>,
         val round: Int = 1,
         val currentTurn: Turn,
         val playableMap: PlayableMap
