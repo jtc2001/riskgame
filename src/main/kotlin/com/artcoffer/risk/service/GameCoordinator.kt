@@ -1,14 +1,13 @@
 package com.artcoffer.risk.service
 
 import com.artcoffer.risk.dto.*
-import com.artcoffer.risk.dto.TurnAction.PLACE_TROOPS
-import com.artcoffer.risk.model.PlayableMapFactory
+import com.artcoffer.risk.model.MapFactory
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GameCoordinator(@Inject val playableMapFactory: PlayableMapFactory,
+class GameCoordinator(@Inject val mapFactory: MapFactory,
                       @Inject val moveCoordinator: MoveCoordinator) {
 
     companion object {
@@ -20,7 +19,7 @@ class GameCoordinator(@Inject val playableMapFactory: PlayableMapFactory,
                 id = UUID.randomUUID().toString(),
                 players = gameSetup.players,
                 currentTurn = Turn(gameSetup.players.first()),
-                playableMap = PlayableMapFactory.worldMap()
+                mapDetails = MapFactory.worldMap()
         )
         return theGame.copy()
     }

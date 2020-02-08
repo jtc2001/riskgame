@@ -1,12 +1,12 @@
 package com.artcoffer.risk.model
 
 import com.artcoffer.risk.dto.Continent
-import com.artcoffer.risk.dto.PlayableMap
+import com.artcoffer.risk.dto.MapDetails
 import com.artcoffer.risk.dto.Territory
 import javax.inject.Singleton
 
 @Singleton
-class PlayableMapFactory {
+class MapFactory {
 
     companion object {
         val northAmericaTerritories = setOf<Territory>(
@@ -24,7 +24,7 @@ class PlayableMapFactory {
         val continents = setOf<Continent>(northAmerica)
 
         @JvmStatic
-        fun worldMap(): PlayableMap = PlayableMap(continents = continents)
+        fun worldMap(): MapDetails = MapDetails(continents = continents)
     }
 
 

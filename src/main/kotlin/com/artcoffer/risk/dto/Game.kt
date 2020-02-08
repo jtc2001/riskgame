@@ -9,5 +9,5 @@ data class Game(
         val players: List<String>,
         val round: Int = 1,
         val currentTurn: Turn,
-        val playableMap: PlayableMap
+        val mapDetails: MapDetails
 )
