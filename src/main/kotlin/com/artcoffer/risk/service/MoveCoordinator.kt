@@ -13,10 +13,10 @@ class MoveCoordinator {
 
         return when (playerMove.turnAction) {
             PLACE_TROOPS -> {
-                placeTroops(game, playerMove.territoryTo)
+                placeTroops(game, playerMove.territoryTo, playerMove.troops)
             }
             ADVANCE -> {
-                advanceTroops(game, playerMove.territoryFrom, playerMove.territoryTo)
+                advanceTroops(game, playerMove.territoryFrom, playerMove.territoryTo, playerMove.troops)
             }
             ATTACK -> {
                 attack(game, playerMove.territoryFrom, playerMove.territoryTo)
@@ -31,14 +31,25 @@ class MoveCoordinator {
 
     }
 
-    private fun placeTroops(game: Game, territoryTo: String): Game {
+    private fun placeTroops(game: Game, territoryTo: String, troops: Int): Game {
         println("Placing troops on $territoryTo")
-        return game.copy(currentTurn = game.currentTurn.copy(turnActions = setOf(PLACE_TROOPS, END_TURN)))
+        val updatedTerritory = game.playableMap.toMutableMap()
+        updatedTerritory[territoryTo] = updatedTerritory[territoryTo]?.plus(troops) ?: 0
+        return game.copy(
+                playableMap = updatedTerritory,
+                currentTurn = game.currentTurn.copy(turnActions = setOf(PLACE_TROOPS, END_TURN))
+        )
     }
 
-    private fun advanceTroops(game: Game, location1: String, location2: String): Game {
-        println("Advanced troops from $location1 to $location2")
-        return game.copy(currentTurn = game.currentTurn.copy(turnActions = setOf(ADVANCE, ATTACK, END_TURN)))
+    private fun advanceTroops(game: Game, territoryFrom: String, territoryTo: String, troops: Int): Game {
+        println("Advanced troops from $territoryFrom to $territoryTo")
+        val updatedTerritory = game.playableMap.toMutableMap()
+        updatedTerritory[territoryTo] = updatedTerritory[territoryTo]?.plus(troops) ?: 0
+        updatedTerritory[territoryFrom] = updatedTerritory[territoryFrom]?.minus(troops) ?: 0
+        return game.copy(
+                playableMap = updatedTerritory,
+                currentTurn = game.currentTurn.copy(turnActions = setOf(ADVANCE, ATTACK, END_TURN))
+        )
     }
 
     private fun attack(game: Game, location1: String, location2: String): Game {

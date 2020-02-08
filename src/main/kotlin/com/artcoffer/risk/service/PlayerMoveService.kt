@@ -16,6 +16,11 @@ class PlayerMoveService(@Inject val coordinator: GameCoordinator) {
             return game
         }
 
+        if(game.currentTurn.playerId != playerMove.player){
+            println("Incorrect player cannot proceed player ${game.currentTurn.playerId}'s turn")
+            return game
+        }
+
         return coordinator.advanceTurn(playerMove)
     }
 

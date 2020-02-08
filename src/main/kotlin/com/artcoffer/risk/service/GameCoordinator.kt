@@ -1,13 +1,13 @@
 package com.artcoffer.risk.service
 
 import com.artcoffer.risk.dto.*
-import com.artcoffer.risk.model.MapFactory
+import com.artcoffer.risk.model.GameMapFactory
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GameCoordinator(@Inject val mapFactory: MapFactory,
+class GameCoordinator(@Inject val gameMapFactory: GameMapFactory,
                       @Inject val moveCoordinator: MoveCoordinator) {
 
     companion object {
@@ -15,21 +15,26 @@ class GameCoordinator(@Inject val mapFactory: MapFactory,
     }
 
     fun createGame(gameSetup: GameSetup): Game {
+        val map = GameMapFactory.worldMap()
+
+        val playableMap = map.continents.map { continent ->
+            continent.territories.map { territory ->
+                territory.name to 0
+            }
+        }.flatten().toMap().toMutableMap()
+
         theGame = Game(
                 id = UUID.randomUUID().toString(),
                 players = gameSetup.players,
                 currentTurn = Turn(gameSetup.players.first()),
-                mapDetails = MapFactory.worldMap()
+                gameMap = GameMapFactory.worldMap(),
+                playableMap = playableMap
         )
         return theGame.copy()
     }
 
     fun getGame(): Game {
         return theGame.copy()
-    }
-
-    fun validMove(): Boolean {
-        return true
     }
 
     fun advanceTurn(playerMove: PlayerMove): Game {

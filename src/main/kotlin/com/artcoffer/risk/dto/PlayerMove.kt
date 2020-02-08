@@ -5,5 +5,6 @@ data class PlayerMove(
         val player: String,
         val turnAction: TurnAction,
         val territoryFrom: String,
-        val territoryTo: String
+        val territoryTo: String,
+        val troops: Int
 )
